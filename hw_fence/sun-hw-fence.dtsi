@@ -15,7 +15,6 @@
 		interrupt-controller;
 		#interrupt-cells = <1>;
 		iommus = <&apps_smmu 0x562 0x1>;
-		dma-coherent;
 		soccp_controller = <&soccp_pas>;
 
 		qcom,hw-fence-table-entries = <8192>;
