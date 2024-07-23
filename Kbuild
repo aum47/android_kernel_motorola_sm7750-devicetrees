@@ -1,3 +1,8 @@
+ifeq ($(CONFIG_MMI_DEVICE_DTBS),y)
+
+dtbo-$(CONFIG_LEAP_DTB) += sun-ese-leap-evb.dtbo
+
+else
 ifeq ($(CONFIG_ARCH_SUN),y)
 dtbo-y += sun-ese-mtp.dtbo
 dtbo-y += sun-ese-rcm-v8.dtbo
@@ -14,6 +19,7 @@ dtbo-y += sun-v2-ese-mtp.dtbo
 dtbo-y += sun-v2-ese-cdp.dtbo
 dtbo-y += sun-v2-ese-qrd.dtbo
 endif
+endif  #end of CONFIG_MMI_DEVICE_DTBS
 
 ifeq ($(CONFIG_ARCH_TUNA),y)
 dtbo-y += tuna-ese-cdp.dtbo
