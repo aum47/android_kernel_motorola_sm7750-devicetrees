@@ -33,6 +33,11 @@ dtbo-y += tuna-ese-oemvm-mtp-kiwi.dtbo
 dtbo-y += tuna-ese-oemvm-rcm-kiwi.dtbo
 endif
 
+ifeq ($(CONFIG_MMI_DEVICE_DTBS),y)
+
+dtbo-$(CONFIG_ROADSTR_DTB) += kera-ese-roadstr-evb.dtbo
+
+else
 ifeq ($(CONFIG_ARCH_KERA),y)
 dtbo-y += kera-ese-atp.dtbo
 dtbo-y += kera-ese-cdp-qca6750-ufs2.dtbo
@@ -57,6 +62,7 @@ dtbo-y += kera-ese-rcm-wcn7750-ufs3.dtbo
 dtbo-y += kera-ese-rcm-wcn7750-ufs4.dtbo
 dtbo-y += kera-ese-rcm.dtbo
 endif
+endif  #end of CONFIG_MMI_DEVICE_DTBS
 
 always-y	:= $(dtb-y) $(dtbo-y)
 subdir-y	:= $(dts-dirs)
