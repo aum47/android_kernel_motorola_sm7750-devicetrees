@@ -1,0 +1,196 @@
+/* Copyright (c) 2021, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/*
+   This file is only for roadstr device, na etc.
+*/
+
+#include "kera-roadstr-products-common-overlay.dtsi"
+#include "kera-pmiv0102.dtsi"
+#include "kera_ufs3.dtsi"
+#include "kera-roadstr-touchscreen-overlay.dtsi"
+#include "kera-roadstr-wlan-elna-controller.dtsi"
+//#include "sun-leap-haptics-overlay.dtsi"
+#include "kera-roadstr-thermal-overlay.dtsi"
+#include "kera-moto-common-charger.dtsi"
+//#include "sun-moto-leap-qorvo-uwb.dtsi"
+#include "kera-roadstr-st-nfc.dtsi"
+#include "kera-roadstr-sensor-overlay.dtsi"
+#include "kera-roadstr-fingerprint-overlay.dtsi"
+#include "moto-roadstr-wl2866d.dtsi"
+&tlmm {
+    key_ai {
+        key_ai_default: key_ai_default {
+            mux {
+                pins = "gpio100";
+                function = "gpio";
+            };
+
+            config {
+                pins = "gpio100";
+                bias-pull-up; 
+                input-enable;
+            };
+        }; 
+    };
+};
+
+&soc {
+    gpio_keys {
+        compatible = "gpio-keys";
+        label = "gpio-keys";
+
+        pinctrl-names = "default";
+        pinctrl-0 = <&key_ai_default>;
+
+        ai_assist {
+            label = "ai_assist";
+            gpios = <&tlmm 100 GPIO_ACTIVE_LOW>;
+            linux,input-type = <1>;
+            linux,code = <KEY_SEARCH>;
+            gpio-key,wakeup;
+            debounce-interval = <15>;
+            linux,can-disable;
+        };
+    };
+};
+
+&tlmm {
+    vib_int_def: vib_int_def {
+        mux {
+            pins = "gpio128";
+            function = "gpio";
+        };
+        config {
+            pins = "gpio128";
+            drive-strength = <2>;
+            bias-pull-up;
+            input-enable;
+            qcom,apps;
+        };
+    };
+    vib_rst_def: vib_rst_def {
+        mux {
+            pins = "gpio155";
+            function = "gpio";
+        };
+        config {
+            pins = "gpio155";
+            drive-strength = <2>;
+            bias-pull-up;
+            //bias-disable;           /* NO PULL */
+            output-high;
+            qcom,apps;
+        };
+    };
+};
+
+&pmiv010x_vib {
+	status = "disabled";
+};
+
+&qupv3_se4_i2c {
+    status = "okay";
+    haptic_hv_tmp@5A {
+        compatible = "awinic,haptic_hv";
+        reg = < 0x5A >;
+        irq-gpio = < &tlmm 128 0 >;
+        reset-gpio = < &tlmm 155 0 >;
+        //pinctrl-names = "irq_active";
+        pinctrl-names = "default";
+        pinctrl-0 = < &vib_rst_def &vib_int_def >;
+        f0_pre = < 1700 >;
+        mode = /bits/ 8 < 5 >;
+        aw8693x_f0_cali_percent = /bits/ 8 < 15 >;
+        aw8693x_gain_bypass = /bits/ 8 < 1 >;
+        //aw8693x_uvlo_vol_default = /bits/ 8 < 0 >;
+        aw8693x_cont_smart_loop = /bits/ 8 < 0 >;
+        aw8693x_cont_drv1_lvl = /bits/ 8 < 0x7F >;
+        aw8693x_cont_lra_vrms = < 900 >;
+        aw8693x_cont_drv1_time = /bits/ 8 < 0x04 >;
+        aw8693x_cont_drv2_time = /bits/ 8 < 0x14 >;
+        aw8693x_cont_track_margin = /bits/ 8 < 0x0F >;
+        aw8693x_cont_brk_gain = /bits/ 8 < 0x08 >;
+        aw8693x_cont_brk_time = /bits/ 8 < 0x08 >;
+        aw8693x_duration_time = /bits/ 8 < 20 30 60 >;
+        aw8693x_d2s_gain = /bits/ 8 < 0x04 >;
+        aw8693x_trig_config = /bits/ 8 < 0 0 0 1 0 2 0 0
+                         0 0 0 1 0 2 0 0
+                         0 0 0 1 0 2 0 0 >;
+        aw8693x_bst_vol_default = < 8500 >;
+        aw8693x_is_enabled_track_en;
+        status = "okay";
+     };
+};
+
+&qupv3_se3_i2c {
+	status = "disabled";
+};
+
+&pmiv010x_amoled {
+    status = "disabled";
+};
+
+&usb_qmp_dp_phy {
+        status = "disabled";
+};
+
+&usb0 {
+        pinctrl-names = "default";
+        pinctrl-0 = <&usb3phy_portselect_gpio>;
+        gpios = <&tlmm 122 0>;
+
+        dwc3@a600000 {
+                usb-phy = <&eusb2_phy0>, <&usb_nop_phy>;
+                maximum-speed = "high-speed";
+                snps,usb2-gadget-lpm-disable;
+        };
+};
+
+&pmiv010x_eusb2_repeater {
+        qcom,param-override-seq =
+                /* <value reg_offset> */
+                /* Adjust HS trasmit amplitude */
+                <0x2 0x51
+                /* Squelch Detector Threshold */
+                 0x5 0x54
+                /* Tx pre-emphasis tuning */
+                 0x4 0x57>;
+        qcom,host-param-override-seq =
+                /* <value reg_offset> */
+                /* Adjust HS trasmit amplitude */
+                <0xa 0x51
+                /* Disconnect Threshold */
+                 0x7 0x53
+                /* Tx pre-emphasis tuning */
+                 0x5 0x57>;
+};
+
+&tlmm {
+	/* reserve FP GPIOs: gpio12,13,14,15 24 25 26 27 for ESE 111 112 for WLAN*/
+	qcom,gpios-reserved = <8 9 10 11 20 21 22 23 111 112 118>;
+};
+
+&qseecom_mem {
+    size = <0x0 0x1800000>;
+};
+
+&qseecom_ta_mem {
+    size = <0x0 0x2800000>;
+};
+
+&pmxr2230_l18 {
+	regulator-min-microvolt = <1800000>;
+	regulator-max-microvolt = <1800000>;
+	qcom,init-voltage = <1800000>;
+	regulator-always-on;
+};

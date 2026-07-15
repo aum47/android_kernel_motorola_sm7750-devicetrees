@@ -195,7 +195,7 @@
 
 	adspslpi_mem: adspslpi_region@99e00000 {
 		no-map;
-		reg = <0x0 0x99e00000 0x0 0x2a00000>;
+		reg = <0x0 0x99e00000 0x0 0x3a00000>;
 	};
 
 	wlan_msa_mem: wlan_msa_region@a6400000 {
@@ -224,11 +224,9 @@
 	 * varies.
 	 */
 
-	trust_ui_vm_mem: trust_ui_vm_region@f3800000 {
-		compatible = "shared-dma-pool";
-		reg = <0x0 0xf3800000 0x0 0x4400000>;
-		reusable;
-		alignment = <0x0 0x400000>;
+	kern_prot_mem: kern_prot_region@f7800000 {
+		no-map;
+		reg = <0x0 0xf7800000 0x0 0x400000>;
 	};
 
 	oem_vm_mem: oem_vm_region@f7c00000 {

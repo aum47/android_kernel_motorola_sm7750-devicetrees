@@ -1,0 +1,112 @@
+/* Copyright (c) 2021, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/*
+   This file is only for leap device, na etc.
+*/
+
+#include "sun-leap-products-common-overlay.dtsi"
+#include "sun-leap-haptics-overlay.dtsi"
+#include "sun-moto-common-charger.dtsi"
+#include "sun-leap-charger-overlay.dtsi"
+#include "sun-leap-thermal-overlay.dtsi"
+#include "sun-moto-leap-qorvo-uwb.dtsi"
+#include "sun-moto-common-st-nfc.dtsi"
+
+&tlmm {
+	key_ai {
+		key_ai_default: key_ai_default {
+			mux {
+				pins = "gpio78";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio78";
+				bias-pull-up;
+				input-enable;
+			};
+		};
+	};
+};
+
+&soc {
+	gpio_keys {
+		compatible = "gpio-keys";
+		label = "gpio-keys";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&key_vol_up_default>, <&key_ai_default>;
+
+		ai_assist {
+			label = "ai_assist";
+			gpios = <&tlmm 78 GPIO_ACTIVE_LOW>;
+			linux,input-type = <1>;
+			linux,code = <KEY_SEARCH>;
+			gpio-key,wakeup;
+			debounce-interval = <15>;
+			linux,can-disable;
+		};
+	};
+};
+
+&usb_qmp_dp_phy {
+	status = "disabled";
+};
+
+&usb0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&usb3phy_portselect_gpio>;
+	gpios = <&tlmm 61 0>;
+
+	dwc3@a600000 {
+		usb-phy = <&eusb2_phy0>, <&usb_nop_phy>;
+		maximum-speed = "high-speed";
+		snps,usb2-gadget-lpm-disable;
+		snps,usb2-lpm-disable;
+	};
+};
+
+&pmih010x_eusb2_repeater {
+	qcom,param-override-seq =
+		/* <value reg_offset> */
+		/* Adjust HS trasmit amplitude */
+		<0xb 0x51
+		/* HS termination resistor */
+		 0x1 0x52
+		/* HS disconnect threshold */
+		 0x4 0x53
+		/* Squelch detection threshold */
+		 0x2 0x54
+		/* USB2 Tx slew rate */
+		 0x2 0x55
+		/* USB2 Rx Equalization */
+		 0x0 0x56
+		/* Tx pre-emphasis tuning */
+		 0x7 0x57>;
+	qcom,host-param-override-seq =
+		/* <value reg_offset> */
+		/* Adjust HS trasmit amplitude */
+		<0xd 0x51
+		/* HS termination resistor */
+		 0x1 0x52
+		/* HS disconnect threshold */
+		 0x6 0x53
+		/* Squelch detection threshold */
+		 0x3 0x54
+		/*USB2 Tx slew rate */
+		 0x1 0x55
+		/* USB2 Rx Equalization */
+		 0x0 0x56
+		/* Tx pre-emphasis tuning */
+		 0x7 0x57>;
+};

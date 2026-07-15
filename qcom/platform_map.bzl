@@ -1,3 +1,5 @@
+load("//msm-kernel:moto_product.bzl", "mmi_product_name")
+
 _platform_map = {
     "sdxkova": {
         "dtb_list": [
@@ -21,55 +23,20 @@ _platform_map = {
     },
     "sun": {
         "dtb_list": [
-            # keep sorted
-            {"name": "sun.dtb"},
-            {
-                "name": "sunp.dtb",
-                "apq": True,
-            },
-            {
-                "name": "sunp-v2.dtb",
-                "apq": True,
-            },
-            {"name": "sun-v2.dtb"},
-            {"name": "sun-tp.dtb"},
-            {"name": "sun-tp-v2.dtb"},
-            {
-                "name": "sunp-tp.dtb",
-                "apq": True,
-            },
-            {
-                "name": "sunp-tp-v2.dtb",
-                "apq": True,
-            },
+            {"name": "sun-tp-leap-base.dtb", "product": "leap"},
+            {"name": "sun-tp-v2-leap-base.dtb", "product": "leap"},
+            {"name": "sun-tp-leap-base.dtb", "product": "lhotse"},
+            {"name": "sun-tp-v2-leap-base.dtb", "product": "lhotse"},
         ],
         "dtbo_list": [
             # keep sorted
-            {"name": "sun-atp-overlay.dtbo"},
-            {"name": "sun-cdp-kiwi-overlay.dtbo"},
-            {"name": "sun-cdp-kiwi-v8-overlay.dtbo"},
-            {"name": "sun-cdp-nfc-overlay.dtbo"},
-            {"name": "sun-cdp-no-display-overlay.dtbo"},
-            {"name": "sun-cdp-overlay.dtbo"},
-            {"name": "sun-cdp-v8-overlay.dtbo"},
-            {"name": "sun-mtp-3.5mm-kiwi-v8-overlay.dtbo"},
-            {"name": "sun-mtp-3.5mm-overlay.dtbo"},
-            {"name": "sun-mtp-kiwi-overlay.dtbo"},
-            {"name": "sun-mtp-kiwi-v8-overlay.dtbo"},
-            {"name": "sun-mtp-nfc-overlay.dtbo"},
-            {"name": "sun-mtp-overlay.dtbo"},
-            {"name": "sun-mtp-qmp1000-overlay.dtbo"},
-            {"name": "sun-mtp-qmp1000-v8-overlay.dtbo"},
-            {"name": "sun-mtp-v8-overlay.dtbo"},
-            {"name": "sun-qrd-sku1-overlay.dtbo"},
-            {"name": "sun-qrd-sku1-v8-overlay.dtbo"},
-            {"name": "sun-qrd-sku2-v8-overlay.dtbo"},
-            {"name": "sun-rcm-kiwi-overlay.dtbo"},
-            {"name": "sun-rcm-kiwi-v8-overlay.dtbo"},
-            {"name": "sun-rcm-overlay.dtbo"},
-            {"name": "sun-rcm-v8-overlay.dtbo"},
-            {"name": "sunp-hdk-overlay.dtbo"},
-            {"name": "sun-rumi-overlay.dtbo"},
+            {"name": "sun-leap-evb-overlay.dtbo", "product": "leap"},
+            {"name": "sun-leap-evt1-overlay.dtbo", "product": "leap"},
+            {"name": "sun-leap-pvt1-overlay.dtbo", "product": "leap"},
+            {"name": "sun-leap-evb-overlay.dtbo", "product": "lhotse"},
+            {"name": "sun-leap-evt1-overlay.dtbo", "product": "lhotse"},
+            {"name": "sun-leap-pvt1-overlay.dtbo", "product": "lhotse"},
+            {"name": "sun-lhotse-evt-overlay.dtbo", "product": "lhotse"},
         ],
         "binary_compatible_with": ["tuna", "kera"],
     },
@@ -125,6 +92,7 @@ _platform_map = {
             {"name": "sunp-hdk-overlay.dtbo"},
             {"name": "sun-rumi-overlay.dtbo"},
         ],
+        #"binary_compatible_with": ["tuna", "kera"],
     },
     "qcs610": {
         "dtb_list": [
@@ -140,82 +108,21 @@ _platform_map = {
     },
     "tuna": {
         "dtb_list": [
-            {"name": "tuna.dtb"},
-            {"name": "tuna7.dtb"},
-            {
-                "name": "tunap.dtb",
-                "apq": True,
-            },
         ],
         "dtbo_list": [
-            {
-                "name": "tuna-rumi-overlay.dtbo",
-                "apq": False,
-            },
-            {"name": "tuna-atp-overlay.dtbo"},
-            {"name": "tuna-cdp-overlay.dtbo"},
-            {"name": "tuna-mtp-kiwi-harmonium-overlay.dtbo"},
-            {"name": "tuna-mtp-kiwi-overlay.dtbo"},
-            {"name": "tuna-mtp-kiwi-pmd802x-overlay.dtbo"},
-            {"name": "tuna-mtp-nfc-overlay.dtbo"},
-            {"name": "tuna-mtp-overlay.dtbo"},
-            {"name": "tuna-mtp-qmp1000-overlay.dtbo"},
-            {"name": "tuna-qrd-overlay.dtbo"},
-            {"name": "tuna-rcm-kiwi-overlay.dtbo"},
-            {"name": "tuna-rcm-overlay.dtbo"},
         ],
     },
     "kera": {
         "dtb_list": [
-            {"name": "kera.dtb"},
-            {"name": "kera-iot.dtb"},
-            {
-                "name": "kerap.dtb",
-                "apq": True,
-            },
-            {
-                "name": "kerap-iot.dtb",
-                "apq": True,
-            },
-            {
-                "name": "kera-qmb.dtb",
-                "apq": False,
-            },
-            {
-                "name": "kerap-qna.dtb",
-                "apq": True,
-            },
-        ],
+            {"name": "kera-roadstr-base.dtb", "product":"roadstr"},
+            {"name": "kera-qogir-base.dtb", "product":"qogir"},
+		],
         "dtbo_list": [
-            {
-                "name": "kera-rumi-overlay.dtbo",
-                "apq": False,
-            },
-            {"name": "kera-atp-overlay.dtbo"},
-            {"name": "kera-mtp-qca6750-ufs4-overlay.dtbo"},
-            {"name": "kera-mtp-qca6750-ufs3-overlay.dtbo"},
-            {"name": "kera-mtp-qca6750-qmp1000-overlay.dtbo"},
-            {"name": "kera-mtp-wcn7750-qmp1000-overlay.dtbo"},
-            {"name": "kera-mtp-wcn7750-ufs3-overlay.dtbo"},
-            {"name": "kera-mtp-wcn7750-ufs4-overlay.dtbo"},
-            {"name": "kera-cdp-qca6750-ufs2-overlay.dtbo"},
-            {"name": "kera-cdp-qca6750-ufs3-overlay.dtbo"},
-            {"name": "kera-cdp-qca6750-ufs4-overlay.dtbo"},
-            {"name": "kera-iot-cdp-qca6750-ufs4-overlay.dtbo"},
-            {"name": "kera-cdp-qca6750-ufs4-slt-overlay.dtbo"},
-            {"name": "kera-cdp-emmc-overlay.dtbo"},
-            {"name": "kera-qrd-wcn7750-ufs4-overlay.dtbo"},
-            {"name": "kera-qrd-wcn7750-ufs2-overlay.dtbo"},
-            {"name": "kera-qrd-wcn7750-ufs3-overlay.dtbo"},
-            {"name": "kera-qrd-qca6750-ufs2-overlay.dtbo"},
-            {"name": "kera-rcm-qca6750-ufs4-overlay.dtbo"},
-            {"name": "kera-rcm-qca6750-ufs2-overlay.dtbo"},
-            {"name": "kera-rcm-qca6750-ufs3-overlay.dtbo"},
-            {"name": "kera-rcm-wcn7750-ufs2-overlay.dtbo"},
-            {"name": "kera-rcm-wcn7750-ufs3-overlay.dtbo"},
-            {"name": "kera-rcm-wcn7750-ufs4-overlay.dtbo"},
-            {"name": "kera-idp-emmc-overlay.dtbo"},
-            {"name": "kera-idp-ufs3-overlay.dtbo"},
+           {"name": "kera-roadstr-evb-overlay.dtbo", "product":"roadstr"},
+           {"name": "kera-roadstr-evt-overlay.dtbo", "product":"roadstr"},
+           {"name": "kera-roadstr-evt-india-overlay.dtbo", "product":"roadstr"},
+           {"name": "kera-qogir-evb-overlay.dtbo", "product":"qogir"},
+           {"name": "kera-qogir-evb2-overlay.dtbo", "product":"qogir"},
         ],
     },
     "kera-le": {
@@ -562,11 +469,18 @@ def _get_dtb_lists(target, dt_overlay_supported):
         "dtb_list": [],
         "dtbo_list": [],
     }
-
+    product = mmi_product_name
     for dtb_node in [target] + _platform_map[target].get("binary_compatible_with", []):
-        ret["dtb_list"].extend(_platform_map[dtb_node].get("dtb_list", []))
+        for dtb in _platform_map[dtb_node].get("dtb_list", []):
+            if (dtb.get("product","default") == product) or (dtb.get("product","default") == "default") :
+                # print("target:{} product:{} append dtb_list name {}".format(target, product, dtb.get("name")))
+                ret["dtb_list"].append({"name": "{}".format(dtb.get("name"))})
+
         if dt_overlay_supported:
-            ret["dtbo_list"].extend(_platform_map[dtb_node].get("dtbo_list", []))
+            for dtbo in _platform_map[dtb_node].get("dtbo_list", []):
+                if (dtbo.get("product","default") == product) or (dtbo.get("product","default") == "default") :
+                    # print("target:{} product:{} append dtbo_list name {}".format(target, product, dtbo.get("name")))
+                    ret["dtbo_list"].append({"name": "{}".format(dtbo.get("name"))})
         else:
             # Translate the dtbo list into dtbs we can append to main dtb_list
             for dtb in _platform_map[dtb_node].get("dtb_list", []):

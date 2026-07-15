@@ -15,6 +15,43 @@ add-overlays = $(foreach o,$1,$(foreach b,$2,$(eval $(basename $b)-$(basename $o
 
 ifneq ($(CONFIG_ARCH_QTI_VM), y)
 
+ifeq ($(CONFIG_MMI_DEVICE_DTBS),y)
+
+ifeq ($(CONFIG_LEAP_DTB),y)
+SUN_BASE_DTB += sun-tp-leap-base.dtb sun-tp-v2-leap-base.dtb
+SUN_BOARDS += sun-leap-evb-overlay.dtbo \
+              sun-leap-evt1-overlay.dtbo \
+              sun-leap-pvt1-overlay.dtbo
+endif
+ifeq ($(CONFIG_LHOTSE_DTB),y)
+#LEAP and LHOTSE have same base dts, so use leap base
+ifneq ($(CONFIG_LEAP_DTB),y)
+SUN_BASE_DTB += sun-tp-leap-base.dtb sun-tp-v2-leap-base.dtb
+endif
+SUN_BOARDS += sun-lhotse-evt-overlay.dtbo
+endif
+
+ifeq ($(CONFIG_ROADSTR_DTB),y)
+KERA_BASE_DTB += kera-roadstr-base.dtb
+KERA_BOARDS += \
+		kera-roadstr-evb-overlay.dtbo \
+		kera-roadstr-evt-overlay.dtbo \
+		kera-roadstr-evt-india-overlay.dtbo
+endif
+
+ifeq ($(CONFIG_QOGIR_DTB),y)
+KERA_BASE_DTB += kera-qogir-base.dtb
+KERA_BOARDS += \
+        kera-qogir-evb-overlay.dtbo \
+        kera-qogir-evb2-overlay.dtbo
+endif
+
+sun-dtb-$(CONFIG_ARCH_KERA) +=  \
+	$(call add-overlays, $(KERA_BOARDS),$(KERA_BASE_DTB))
+sun-dtb-$(CONFIG_ARCH_SUN) += \
+	$(call add-overlays, $(SUN_BOARDS), $(SUN_BASE_DTB))
+
+else
 SUN_BASE_DTB += sun.dtb sun-v2.dtb sun-tp.dtb sun-tp-v2.dtb
 SUN_APQ_BASE_DTB += sunp.dtb sunp-v2.dtb sunp-tp.dtb sunp-tp-v2.dtb
 
@@ -113,6 +150,7 @@ sun-dtb-$(CONFIG_ARCH_KERA) +=  \
 	$(call add-overlays, $(KERA_BOARDS) $(APQ_KERA_BOARDS),$(KERA_APQ_BASE_DTB))
 sun-overlays-dtb-$(CONFIG_ARCH_KERA) += $(KERA_BOARDS) $(NOAPQ_KERA_BOARDS) $(KERA_BASE_DTB) $(KERA_APQ_BASE_DTB)
 
+endif  # end of CONFIG_MMI_DEVICE_DTBS
 dtb-y += $(sun-dtb-y)
 
 QCS610_BASE_DTB += qcs610.dtb
