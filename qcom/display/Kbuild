@@ -1,4 +1,11 @@
 ifneq ($(CONFIG_ARCH_QTI_VM), y)
+ifeq ($(CONFIG_MMI_DEVICE_DTBS),y)
+
+dtbo-$(CONFIG_LEAP_DTB) += display/sun-sde-display-leap-evb-overlay.dtbo
+dtbo-$(CONFIG_LHOTSE_DTB) += display/sun-sde-display-lhotse-evt-overlay.dtbo
+
+else
+
 dtbo-$(CONFIG_ARCH_SUN) += display/sun-sde.dtbo \
 		display/sun-sde-display-cdp-overlay.dtbo \
 		display/sun-sde-display-mtp-overlay.dtbo \
@@ -24,6 +31,7 @@ dtbo-$(CONFIG_ARCH_SUN) += display/sun-sde.dtbo \
 		display/sun-sde-display-mtp-qmp1000-v8-overlay.dtbo \
 		display/sun-sde-display-hdk-overlay.dtbo \
 		display/sun-sde-display-cdp-no-display-overlay.dtbo
+endif # end of CONFIG_MMI_DEVICE_DTBS
 else
 dtbo-$(CONFIG_ARCH_SUN) += display/trustedvm-sun-sde-display-cdp-overlay.dtbo \
 		display/trustedvm-sun-sde-display-mtp-overlay.dtbo \
@@ -50,6 +58,15 @@ dtbo-$(CONFIG_ARCH_TUNA) += display/trustedvm-tuna-sde-display-atp-overlay.dtbo 
 endif
 
 ifneq ($(CONFIG_ARCH_QTI_VM), y)
+ifeq ($(CONFIG_MMI_DEVICE_DTBS),y)
+
+dtbo-$(CONFIG_ROADSTR_DTB) += display/kera-sde-display-roadstr-evb-overlay.dtbo
+#dtbo-$(CONFIG_ARCH_KERA) += display/kera-sde.dtbo
+
+dtbo-$(CONFIG_QOGIR_DTB) += display/kera-sde-display-qogir-evb-overlay.dtbo \
+                            display/kera-sde-display-qogir-evb2-overlay.dtbo
+
+else
 dtbo-$(CONFIG_ARCH_KERA) += display/kera-sde.dtbo \
 		display/kera-sde-display-atp-overlay.dtbo \
 		display/kera-sde-display-cdp-overlay.dtbo \
@@ -59,6 +76,7 @@ dtbo-$(CONFIG_ARCH_KERA) += display/kera-sde.dtbo \
 		display/kera-sde-display-qrd-overlay.dtbo \
 		display/kera-sde-display-rumi-overlay.dtbo \
 		display/kera-sde-display-rcm-overlay.dtbo
+endif # end of CONFIG_MMI_DEVICE_DTBS
 else
 dtbo-$(CONFIG_ARCH_TUNA) += display/trustedvm-kera-sde-display-atp-overlay.dtbo \
 		display/trustedvm-kera-sde-display-cdp-overlay.dtbo \
