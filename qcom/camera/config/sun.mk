@@ -1,3 +1,16 @@
+ifeq ($(CONFIG_MMI_DEVICE_DTBS),y)
+dtbo-$(CONFIG_ARCH_SUN)  := sun-camera.dtbo
+
+dtbo-$(CONFIG_LEAP_DTB) += sun-camera-sensor-leap-evb.dtbo \
+                           sun-camera-sensor-leap-evt1.dtbo
+dtbo-$(CONFIG_LHOTSE_DTB) += sun-camera-sensor-lhotse-evt.dtbo
+
+dtbo-$(CONFIG_ARCH_KERA)   += kera-camera.dtbo
+dtbo-$(CONFIG_ROADSTR_DTB) += kera-camera-sensor-roadstr-evb.dtbo
+dtbo-$(CONFIG_QOGIR_DTB) += kera-camera-sensor-qogir-evb.dtbo
+
+else
+
 dtbo-$(CONFIG_ARCH_SUN)   := sun-camera.dtbo
 dtbo-$(CONFIG_ARCH_SUN)   += sun-camera-sensor-mtp.dtbo \
 				sun-camera-sensor-rumi.dtbo \
@@ -15,5 +28,5 @@ dtbo-$(CONFIG_ARCH_KERA)  += kera-camera.dtbo
 dtbo-$(CONFIG_ARCH_KERA)  += kera-camera-sensor-mtp.dtbo \
 				kera-camera-sensor-cdp.dtbo \
 				kera-camera-sensor-qrd.dtbo \
-				kera-camera-sensor-rcm.dtbo \
-				kera-camera-sensor-idp.dtbo
+				kera-camera-sensor-rcm.dtbo
+endif # end of CONFIG_MMI_DEVICE_DTBS
