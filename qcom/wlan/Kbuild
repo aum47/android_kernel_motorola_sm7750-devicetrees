@@ -1,29 +1,11 @@
-ifeq ($(CONFIG_ARCH_ART),y)
-dtbo-y += art-atp-fig.dtbo
-dtbo-y += art-cdp-fig.dtbo
-dtbo-y += art-cdp-peach.dtbo
-dtbo-y += art-mtp-fig.dtbo
-dtbo-y += art-mtp-peach.dtbo
-dtbo-y += art-omtp-fig.dtbo
-dtbo-y += art-qrd-fig.dtbo
-dtbo-y += art-rcm-fig.dtbo
-dtbo-y += art-rcm-peach.dtbo
-dtbo-y += art-heap-mtp-fig.dtbo
-dtbo-y += art-heap-cdp-fig.dtbo
-dtbo-y += art-heap-rcm-fig.dtbo
-dtbo-y += art-leap-mtp-fig.dtbo
-dtbo-y += art-leap-mtp-peach.dtbo
-dtbo-y += art-leap-qrd-fig.dtbo
-dtbo-y += art-leap-rcm-fig.dtbo
-endif
+ifeq ($(CONFIG_MMI_DEVICE_DTBS),y)
 
-ifeq ($(CONFIG_ARCH_ECHO),y)
-dtbo-y += echo-fig-cnss.dtbo
-endif
+dtbo-$(CONFIG_LEAP_DTB) += sun-peach-cnss-leap-evb.dtbo
+dtbo-$(CONFIG_LHOTSE_DTB) += sun-peach-cnss-lhotse-evt.dtbo
+dtbo-$(CONFIG_ROADSTR_DTB) += kera-qca6750-roadstr-evb.dtbo
+dtbo-$(CONFIG_QOGIR_DTB) += kera-wcn7750-qogir-evb.dtbo
 
-ifeq ($(CONFIG_ARCH_X1P42100),y)
-dtbo-y += x1p42100-kiwi-cnss.dtbo
-endif
+else
 
 ifeq ($(CONFIG_ARCH_CANOE),y)
 dtbo-y += canoe-kiwi-cnss.dtbo
@@ -154,6 +136,7 @@ dtbo-y += kera-qrd-wcn7750.dtbo
 dtbo-y += kera-rcm-wcn7750.dtbo
 dtbo-y += kera-evk-wcn7760.dtbo
 endif
+endif  # end of CONFIG_MMI_DEVICE_DTBS
 
 ifeq ($(CONFIG_ARCH_SERAPH),y)
 dtbo-y += seraph-peach-cnss.dtbo
