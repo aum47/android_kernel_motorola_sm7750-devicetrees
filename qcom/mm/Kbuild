@@ -1,3 +1,10 @@
+ifeq ($(CONFIG_MMI_DEVICE_DTBS),y)
+
+dtbo-y += hw_fence/sun-hw-fence.dtbo \
+
+dtbo-$(CONFIG_CTWOV_DTB) += sun-mm-leap-evb-overlay.dtbo
+
+else
 ifeq ($(CONFIG_ARCH_SUN), y)
 	dtbo-y += hw_fence/sun-hw-fence.dtbo \
 		sun-mm-cdp-kiwi-overlay.dtbo \
@@ -25,6 +32,7 @@ ifeq ($(CONFIG_ARCH_SUN), y)
 		sun-mm-rcm-v8-overlay.dtbo \
 		sun-mm-cdp-no-display-overlay.dtbo
 endif
+endif # end of CONFIG_MMI_DEVICE_DTBS
 
 always-y    := $(dtb-y) $(dtbo-y)
 subdir-y    := $(dts-dirs)
